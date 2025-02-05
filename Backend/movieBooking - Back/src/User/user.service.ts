@@ -54,7 +54,7 @@ export class UserService {
         });
 
         return {
-            message: 'Utilisateur créé avec succès',
+            message: 'Successfully create user',
             user: { id: newUser.id, email: newUser.email, username: newUser.username },
         };
     }

@@ -19,6 +19,18 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
+    app.use((req, res, next) => {
+      console.log(`➡️ Requête reçue: ${req.method} ${req.url}`);
+      next();
+    });
+
+  
+    app.enableCors({
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      allowedHeaders: 'Authorization, Content-Type',
+    });
+
   const document = SwaggerModule.createDocument(app, v_info);
   SwaggerModule.setup('api', app, document);
 
