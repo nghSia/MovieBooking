@@ -67,11 +67,11 @@ export class MoviesService {
                 Accept: 'application/json',
             };
 
-            const response = await firstValueFrom(
+            const v_movies = await firstValueFrom(
                 this.s_httpService.get(v_url, { headers })
             );
 
-            return response.data
+            return v_movies.data
         } catch{
             throw new BadRequestException('Error during the process');
         }
