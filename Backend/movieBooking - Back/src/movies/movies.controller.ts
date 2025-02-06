@@ -19,7 +19,7 @@ export class MoviesController {
         return this.s_movieService.getByName(p_title);
     }
 
-    @Get('find/:id')
+    @Get('findby/:id')
     @ApiOperation({ summary: 'rechercher films par son Id' })
     @ApiResponse({ status: 201, description: 'film trouve' })
     @ApiResponse({ status: 400, description: 'Erreurs lors de la recuperation, informations invalides' })

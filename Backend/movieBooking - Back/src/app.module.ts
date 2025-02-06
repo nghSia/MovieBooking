@@ -7,13 +7,15 @@ import { UserService } from './User/user.service';
 import { PassportModule } from '@nestjs/passport';
 import { MoviesModule } from './movies/movies.module';
 import { HttpModule } from '@nestjs/axios';
+import { ReservationModule } from './reservation/reservation.module';
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
     MoviesModule,
-    HttpModule
+    HttpModule,
+    ReservationModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],

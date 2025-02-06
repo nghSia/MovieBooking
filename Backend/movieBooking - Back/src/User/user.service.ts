@@ -14,14 +14,16 @@ export class UserService {
     ){}
 
     //Valider si les informations de connexion sont correctes
-    async validateUser({email, password} : loginDTO){
+    async validateUser(p_loginDto : loginDTO){
 
-        const v_findUser = await prisma.user.findUnique({ where : {email}});
+        const v_findUser = await prisma.user.findUnique({ where : {
+            email : p_loginDto.email
+        }});
         console.log("EQOIJGQ : " + v_findUser?.username);
         if (!v_findUser) {
             throw new BadRequestException('User not found, verify informatiosn');
         }
-        const v_isPasswordValid = await bcrypt.compare(password, v_findUser.password);
+        const v_isPasswordValid = await bcrypt.compare(p_loginDto.password, v_findUser.password);
         if (v_isPasswordValid){
             const {password, ...user} = v_findUser;
             return this.s_jwtService.sign(user);            
@@ -32,24 +34,26 @@ export class UserService {
     }
 
     //inserer l'utilisateur dans la base de donne a condition que celui-ci n'existe pas deja
-    async registeruser({email, username, password, role,} : registerDTO){
-        const v_existingUser = await prisma.user.findUnique({ where: {email}});
+    async registeruser(p_registerDto : registerDTO){
+        const v_existingUser = await prisma.user.findUnique({ where: {
+            email : p_registerDto.email
+        }});
 
         if(v_existingUser){
             throw new ConflictException("Existing User");
         }
 
-        if(password.length < 6){
+        if(p_registerDto.password.length < 6){
             throw new BadRequestException("Password is not strong enough");
         }
-        const v_hashPassword = await bcrypt.hash(password, 10);
+        const v_hashPassword = await bcrypt.hash(p_registerDto.password, 10);
 
         const newUser = await prisma.user.create({
             data: {
-              email,
-              username,
-              password: v_hashPassword,
-              role: role || 'USER',
+              email : p_registerDto.email,
+              username : p_registerDto.username,
+              password: p_registerDto.password,
+              role: p_registerDto.role || 'USER',
             },
         });
 
