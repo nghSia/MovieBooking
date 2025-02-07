@@ -10,4 +10,8 @@ export abstract class Movie {
   overview : string;
   @Field()
   release_date : string;
+  @Field()
+  vote_average: number;
+  @Field()
+  poster_path: string;
 }

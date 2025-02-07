@@ -29,7 +29,7 @@ export class MoviesService {
             }));
             return v_movies.data;
         } catch{
-            throw new BadRequestException('Error during the process');
+            throw new BadRequestException('la recuperation par nom de film n\'a pas aboutie');
         }
     }
 
@@ -43,7 +43,7 @@ export class MoviesService {
             }));
             return v_movie.data
         } catch{
-            throw new BadRequestException('Error during the process');
+            throw new BadRequestException('film n\'existe pas');
         }
     }
 
@@ -54,7 +54,7 @@ export class MoviesService {
             return v_genre.data;
         }
         catch{
-            throw new BadRequestException('Error during the process');
+            throw new BadRequestException('la recherche des genres n\'a pas aboutie');
 
         }
     }
@@ -73,7 +73,7 @@ export class MoviesService {
 
             return v_movies.data
         } catch{
-            throw new BadRequestException('Error during the process');
+            throw new BadRequestException('la recuperation des films du moment n\'a pas aboutie');
         }
     }
 }

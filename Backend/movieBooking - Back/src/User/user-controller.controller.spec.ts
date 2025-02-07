@@ -55,7 +55,6 @@ describe('UserController', () => {
         user: { id: 1, email: 'test@test.com', username: 'testuser' },
       });
 
-      // Appel de la fonction et stockage du résultat
       const result = await controller.register({
         email: 'test@test.com',
         username: 'testuser',
@@ -63,7 +62,6 @@ describe('UserController', () => {
         role: 'USER',
       });
 
-      // Vérification du résultat
       expect(result).toEqual({
         message: 'Successfully create user',
         user: { id: 1, email: 'test@test.com', username: 'testuser' },

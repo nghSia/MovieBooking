@@ -11,4 +11,6 @@ export class CreateReservationDto {
     @ApiProperty({ example: '12445', description: 'Id du film'})
     @IsNotEmpty()
     filmId : number;
+    createdAt : Date;
+    updatedAt : Date;
 }

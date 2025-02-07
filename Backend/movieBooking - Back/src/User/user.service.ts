@@ -13,38 +13,35 @@ export class UserService {
         private s_jwtService : JwtService
     ){}
 
-    //Valider si les informations de connexion sont correctes
     async validateUser(p_loginDto : loginDTO){
 
         const v_findUser = await prisma.user.findUnique({ where : {
             email : p_loginDto.email
         }});
-        console.log("EQOIJGQ : " + v_findUser?.username);
         if (!v_findUser) {
-            throw new BadRequestException('User not found, verify informatiosn');
+            throw new BadRequestException('utilisateur n\'existe pas verifie les informations');
         }
         const v_isPasswordValid = await bcrypt.compare(p_loginDto.password, v_findUser.password);
         if (v_isPasswordValid){
             const {password, ...user} = v_findUser;
             return this.s_jwtService.sign(user);            
         } else {
-            throw new BadRequestException('User not found, verify informatiosn');       
+            throw new BadRequestException('mot de passe incorrect');       
         }
         
     }
 
-    //inserer l'utilisateur dans la base de donne a condition que celui-ci n'existe pas deja
     async registeruser(p_registerDto : registerDTO){
         const v_existingUser = await prisma.user.findUnique({ where: {
             email : p_registerDto.email
         }});
 
         if(v_existingUser){
-            throw new ConflictException("Existing User");
+            throw new ConflictException("utilisateur existant");
         }
 
         if(p_registerDto.password.length < 6){
-            throw new BadRequestException("Password is not strong enough");
+            throw new BadRequestException("le mot de passe n\'est pas assez fort");
         }
         const v_hashPassword = await bcrypt.hash(p_registerDto.password, 10);
 
@@ -52,13 +49,13 @@ export class UserService {
             data: {
               email : p_registerDto.email,
               username : p_registerDto.username,
-              password: p_registerDto.password,
+              password: v_hashPassword,
               role: p_registerDto.role || 'USER',
             },
         });
 
         return {
-            message: 'Successfully create user',
+            message: 'inscription reussie',
             user: { id: newUser.id, email: newUser.email, username: newUser.username },
         };
     }
