@@ -1,7 +1,7 @@
 API Endpoints : 
 
     Authentication
-        POST /auth/login - Login
+        POST /auth/login - Login, le login renvoie un token a utiliser pour les routes proteges
         POST /auth/register - Register
         GET /auth/protected - test du guard
 
@@ -11,8 +11,9 @@ API Endpoints :
         GET /findBy/:id - Recuperer les details d'un film par son Id
         GET /now_playing - Recuperer les films du moment
         GET /genre/list - Recuperer la liste des genres de film
+        
 
-    Reservations
+    Reservations - toutes les routes de reservations sont protegees par le guard 
         POST /create - Create reservation, on verifie la disponibilite d'un film et si l'utilisateur est present dans la DB, on ne peut pas reserver des films si les creneaux ne sont pas separe de 2 heures (exemple reservation a 14h, la prochaine reservation possible par cet utilisateur dans le meme jour sera a partir de 16h01)
         GET /reservations - List reservations par l'utilisateur
         DELETE /reservations/:id - Delete une reservation par son Id
